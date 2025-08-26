@@ -1,7 +1,7 @@
 'use client';
 import { useApiQuery } from '@/lib/react-query/useReactQuery';
 import { useGlobalContext } from '@/lib/useContext/useGlobalContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import EmployeeCard from './employee-card/EmployeeCard';
 
 const EmployeeList = () => {
@@ -19,51 +19,60 @@ const EmployeeList = () => {
 
   const employees = EmployeeList?.data?.employees || [];
 
-  // Group by category
-  const employeesByCategory = employees.reduce((acc: any, emp: any) => {
-    const categoryTitle = emp.category?.title || 'अन्य';
-    if (!acc[categoryTitle]) acc[categoryTitle] = [];
-    acc[categoryTitle].push(emp);
-    return acc;
-  }, {});
+  // Group by category (memoized to avoid infinite effect loop)
+  const employeesByCategory = useMemo(() => {
+    return employees.reduce((acc: any, emp: any) => {
+      const categoryTitle = emp.category?.title || 'अन्य';
+      if (!acc[categoryTitle]) acc[categoryTitle] = [];
+      acc[categoryTitle].push(emp);
+      return acc;
+    }, {});
+  }, [employees]);
 
-  // Track current employee index per category
-  const initialIndex = Object.keys(employeesByCategory).reduce((acc: any, cat) => {
-    acc[cat] = 0;
-    return acc;
-  }, {});
-  const [currentIndex, setCurrentIndex] = useState<{ [key: string]: number }>(initialIndex);
+  // Track current index per category
+  const [currentIndex, setCurrentIndex] = useState<{ [key: string]: number }>({});
 
+  // 🔹 Reset currentIndex when employeesByCategory changes
   useEffect(() => {
-    const intervalIds: NodeJS.Timer[] = [];
-
-    Object.keys(employeesByCategory).forEach((category) => {
-      const id = setInterval(() => {
-        setCurrentIndex((prev) => ({
-          ...prev,
-          [category]: (prev[category] + 1) % employeesByCategory[category].length,
-        }));
-      }, 100);
-      intervalIds.push(id);
-    });
-
-    return () => intervalIds.forEach(clearInterval);
+    const initialIndex = Object.keys(employeesByCategory).reduce((acc: any, cat) => {
+      acc[cat] = 0;
+      return acc;
+    }, {});
+    setCurrentIndex(initialIndex);
   }, [employeesByCategory]);
 
-  // ✅ branch after hooks
-  if (EmployeeIsLoading) {
-    return <div>Loading...</div>;
-  }
+  // 🔹 Set up auto-rotation
+  useEffect(() => {
+    if (!employees || employees.length === 0) return;
 
-  if (EmployeeError) {
-    return <div>Error loading employees</div>;
-  }
+    const intervalIds: ReturnType<typeof setInterval>[] = [];
+
+    Object.keys(employeesByCategory).forEach((category) => {
+      const empCount = employeesByCategory[category].length;
+
+      if (empCount > 1) {
+        const id = setInterval(() => {
+          setCurrentIndex((prev) => ({
+            ...prev,
+            [category]: ((prev[category] ?? 0) + 1) % empCount,
+          }));
+        }, 10000); // rotate every 10s
+        intervalIds.push(id);
+      }
+    });
+
+    return () => intervalIds.forEach((id) => clearInterval(id));
+  }, [employeesByCategory, employees.length]);
+
+  // ✅ branch after hooks
+  if (EmployeeIsLoading) return <div>Loading...</div>;
+  if (EmployeeError) return <div>Error loading employees</div>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
       {Object.entries(employeesByCategory).map(([category, emps]) => {
-        const index = currentIndex[category] || 0;
-        const employee = emps[index];
+        const index = currentIndex[category] ?? 0; // safe fallback
+        const employee = (emps as any[])[index];
 
         return (
           <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">

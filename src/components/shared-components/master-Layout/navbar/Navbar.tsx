@@ -36,8 +36,6 @@ const Navbar = () => {
   const userData = loginData?.data?.data?.user;
   const headerImage = userData?.image;
 
-  console.log(userData);
-
   return (
     <nav className="fixed top-0 left-0 z-50 w-full background-blue-header shadow-md">
       {/* Main header */}
