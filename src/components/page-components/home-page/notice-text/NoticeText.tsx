@@ -24,7 +24,7 @@ const NoticeText = () => {
           <span>सुचना</span>
         </div>
         {/* Arrow */}
-        <div className="w-0 h-0 border-t-[24px] border-b-[24px] border-l-[10px] border-t-transparent border-b-transparent border-l-red-600"></div>
+        <div className="w-0 h-0 border-t-[24px] border-b-[24px] border-l-[10px] border-t-transparent border-b-transparent border-l-[#D62828]"></div>
       </div>
 
       {/* Notice text area */}
