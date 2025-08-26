@@ -16,11 +16,11 @@ const EmployeeCard = ({ employee }) => {
 
       {/* Right side - Details */}
       <div className="flex flex-col justify-center p-4 text-white">
-        <p className="font-bold text-xl">{employee.name}</p>
-        <p className="text-sm">Designation: {employee.designation?.title}</p>
-        <p className="text-sm">Phone: {employee.phone}</p>
-        {employee.email && <p className="text-sm">Email: {employee.email}</p>}
-        {employee.room_number && <p className="text-sm">Room: {employee.room_number}</p>}
+        <p className="font-bold text-2xl">{employee.name}</p>
+        <p className="text-sm 2xl:text-xl">Designation: {employee.designation?.title}</p>
+        <p className="text-sm 2xl:text-xl">Phone: {employee.phone}</p>
+        {employee.email && <p className="text-sm 2xl:text-xl">Email: {employee.email}</p>}
+        {employee.room_number && <p className="text-sm 2xl:text-xl">Room: {employee.room_number}</p>}
         {/* <p className="text-sm">Status: {employee.status === '1' ? 'Active' : 'Inactive'}</p>
         <p className="text-xs mt-1">Updated at: {new Date(employee.updated_at).toLocaleString()}</p> */}
       </div>
