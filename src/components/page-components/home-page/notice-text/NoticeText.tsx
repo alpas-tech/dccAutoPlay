@@ -33,7 +33,7 @@ const NoticeText = () => {
       ) : (
         <div className="whitespace-nowrap animate-marquee">
           {notices.map((notice: any) => (
-            <span key={notice.id} className="inline-block mx-8 text-lg text-white">
+            <span key={notice.id} className="inline-block mx-8 text-lg 2xl:text-2xl text-white">
               {notice.title}
             </span>
           ))}

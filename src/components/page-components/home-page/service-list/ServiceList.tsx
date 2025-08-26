@@ -39,7 +39,10 @@ const ServiceList = () => {
         ) : (
           <>
             <h2 className="text-xl font-bold mb-3">सेवाहरू</h2>
-            <div ref={containerRef} className="grid grid-cols-1 gap-4 max-h-[68vh] overflow-y-auto no-scrollbar">
+            <div
+              ref={containerRef}
+              className="grid grid-cols-1 gap-4 lg:max-h-[68vh] 2xl:max-h-[77vh] overflow-y-auto no-scrollbar"
+            >
               {serviceList?.data?.services?.map((item: any) => (
                 <div
                   key={item.id}
