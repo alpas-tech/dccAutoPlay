@@ -21,8 +21,8 @@ const EmployeeCard = ({ employee }) => {
         <p className="text-sm">Phone: {employee.phone}</p>
         {employee.email && <p className="text-sm">Email: {employee.email}</p>}
         {employee.room_number && <p className="text-sm">Room: {employee.room_number}</p>}
-        <p className="text-sm">Status: {employee.status === '1' ? 'Active' : 'Inactive'}</p>
-        <p className="text-xs mt-1">Updated at: {new Date(employee.updated_at).toLocaleString()}</p>
+        {/* <p className="text-sm">Status: {employee.status === '1' ? 'Active' : 'Inactive'}</p>
+        <p className="text-xs mt-1">Updated at: {new Date(employee.updated_at).toLocaleString()}</p> */}
       </div>
     </div>
   );
