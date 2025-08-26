@@ -55,7 +55,7 @@ const Navbar = () => {
               alt="Nepal government"
               className="object-contain w-12 h-12 sm:w-[65px] sm:h-[65px]"
             />
-            <div className="flex flex-col text-lg 3xl:text-2xl">
+            <div className="flex flex-col text-lg 3xl:text-3xl">
               <span className="font-semibold text-white leading-snug">{userData?.name}</span>
               <span className="font-semibold text-white leading-snug">{userData?.address}</span>
             </div>
@@ -64,14 +64,14 @@ const Navbar = () => {
 
         {/* Title - absolutely centered */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full pointer-events-none ">
-          <h1 className="text-xl sm:text-2xl xl:text-2xl 2xl:text-3xl font-semibold text-white leading-snug">
+          <h1 className="text-xl sm:text-2xl xl:text-2xl 3xl:text-3xl font-semibold text-white leading-snug">
             नागरिक वडापत्र
           </h1>
         </div>
 
         {/* Flag */}
         <div className="flex">
-          <section className="flex flex-col items-end text-right text-white mr-2 mt-2">
+          <section className="flex flex-col items-end text-right text-white mr-2 mt-2 3xl:text-3xl">
             <p>
               {nepaliFormattedDay}, {nepaliFormattedDate}
             </p>

@@ -80,7 +80,7 @@ const EmployeeList = () => {
         return (
           <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
             <h2 className="text-xl font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl">{category}</h2>
-            <div className="flex flex-col gap-5 w-full items-center">
+            <div className="flex flex-col gap-5 w-full items-center 3xl:mt-2">
               {first ? <EmployeeCard employee={first} /> : <p>No employees</p>}
               {second && <EmployeeCard employee={second} />}
             </div>
