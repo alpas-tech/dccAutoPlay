@@ -20,7 +20,7 @@ const NoticeText = () => {
     <section className="h-12 flex items-center overflow-hidden primary-blue">
       {/* Red arrow label */}
       <div className="flex items-center relative z-40">
-        <div className="bg-red-600 text-white font-bold px-4 h-12 flex items-center">
+        <div className="bg-[#D62828] text-white font-bold px-4 h-12 flex items-center">
           <span>सुचना</span>
         </div>
         {/* Arrow */}

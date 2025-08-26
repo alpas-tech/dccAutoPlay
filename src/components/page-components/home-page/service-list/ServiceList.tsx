@@ -47,7 +47,7 @@ const ServiceList = () => {
                   onClick={() => setSelectedServiceId(item.id)}
                   className={`p-4 py-10 rounded-xl cursor-pointer shadow-md text-center transition-transform duration-200 ${
                     selectedServiceId === item.id
-                      ? 'bg-white border border-blue-700 text-blue-500 font-semibold'
+                      ? 'bg-white border border-blue-700 text-[#3B82F6] font-semibold'
                       : 'bg-[#2563EB] text-white hover:bg-[#06375f]'
                   }`}
                 >

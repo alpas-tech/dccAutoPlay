@@ -72,13 +72,18 @@ const EmployeeList = () => {
     <div className="grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
       {Object.entries(employeesByCategory).map(([category, emps]) => {
         const index = currentIndex[category] ?? 0; // safe fallback
-        const employee = (emps as any[])[index];
+        const employeesArr = emps as any[];
+        // Get two consecutive employees, wrap if needed
+        const first = employeesArr[index];
+        const second = employeesArr.length > 1 ? employeesArr[(index + 1) % employeesArr.length] : null;
 
         return (
           <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
-            <h2 className="text-xl font-bold mb-2 bg-green-700 w-full py-2 text-center rounded-t-xl">{category}</h2>
-
-            {employee ? <EmployeeCard employee={employee} /> : <p>No employees</p>}
+            <h2 className="text-xl font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl">{category}</h2>
+            <div className="flex flex-col gap-5 w-full items-center">
+              {first ? <EmployeeCard employee={first} /> : <p>No employees</p>}
+              {second && <EmployeeCard employee={second} />}
+            </div>
           </div>
         );
       })}
