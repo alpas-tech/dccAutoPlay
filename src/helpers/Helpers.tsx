@@ -19,3 +19,25 @@ export function getAllCookies() {
 export function deleteCookie(name: string, args: any = {}) {
   return Cookies.remove(name, args);
 }
+
+export const nepaliWeekdays = ['आइतबार', 'सोमबार', 'मङ्गलबार', 'बुधबार', 'बिहीबार', 'शुक्रबार', 'शनिबार'];
+
+export const nepaliMonths = [
+  'बैशाख',
+  'जेठ',
+  'असार',
+  'साउन',
+  'भदौ',
+  'असोज',
+  'कार्तिक',
+  'मंसिर',
+  'पौष',
+  'माघ',
+  'फाल्गुण',
+  'चैत',
+];
+
+export function convertToNepaliDigits(number: number | string) {
+  const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+  return String(number).replace(/\d/g, (d) => nepaliDigits[parseInt(d)]);
+}
