@@ -1,7 +1,6 @@
 // components/MiddleSection.tsx
 'use client';
 import EmployeeList from './employee-list/EmployeeList';
-import NoticeText from './notice-text/NoticeText';
 import ServiceList from './service-list/ServiceList';
 
 const Homepage = () => {
@@ -13,7 +12,7 @@ const Homepage = () => {
           <EmployeeList />
         </div>
       </div>
-      <NoticeText />
+      {/* <NoticeText /> */}
     </>
   );
 };
