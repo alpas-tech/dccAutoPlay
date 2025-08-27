@@ -19,6 +19,14 @@ const nextConfig = {
         hostname: 'dcc.progressnepal.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: '**', // Wildcard pattern
+      },
+      {
+        protocol: 'http',
+        hostname: '**', // Wildcard pattern
+      },
     ],
   },
   eslint: {
