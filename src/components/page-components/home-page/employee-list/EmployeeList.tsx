@@ -19,7 +19,7 @@ const EmployeeList = () => {
 
   const employees = EmployeeList?.data?.employees || [];
 
-  // Group by category (memoized to avoid infinite effect loop)
+  // Group by category
   const employeesByCategory = useMemo(() => {
     return employees.reduce((acc: any, emp: any) => {
       const categoryTitle = emp.category?.title || 'अन्य';
@@ -32,16 +32,25 @@ const EmployeeList = () => {
   // Track current index per category
   const [currentIndex, setCurrentIndex] = useState<{ [key: string]: number }>({});
 
-  // 🔹 Reset currentIndex when employeesByCategory changes
+  // 🔹 Only reset if category keys change
   useEffect(() => {
-    const initialIndex = Object.keys(employeesByCategory).reduce((acc: any, cat) => {
-      acc[cat] = 0;
-      return acc;
-    }, {});
-    setCurrentIndex(initialIndex);
-  }, [employeesByCategory]);
+    const keys = Object.keys(employeesByCategory);
+    setCurrentIndex((prev) => {
+      const updated = { ...prev };
+      let changed = false;
 
-  // 🔹 Set up auto-rotation
+      keys.forEach((cat) => {
+        if (!(cat in updated)) {
+          updated[cat] = 0;
+          changed = true;
+        }
+      });
+
+      return changed ? updated : prev;
+    });
+  }, [Object.keys(employeesByCategory).join(',')]);
+
+  // 🔹 Auto-rotation
   useEffect(() => {
     if (!employees || employees.length === 0) return;
 
@@ -56,16 +65,16 @@ const EmployeeList = () => {
             ...prev,
             [category]: ((prev[category] ?? 0) + 1) % empCount,
           }));
-        }, 10000); // rotate every 10s
+        }, 10000);
         intervalIds.push(id);
       }
     });
 
     return () => intervalIds.forEach((id) => clearInterval(id));
-  }, [employeesByCategory, employees.length]);
+  }, [employeesByCategory]);
 
   // ✅ branch after hooks
-  if (EmployeeIsLoading) return <div>Loading...</div>;
+
   if (EmployeeError) return <div>Error loading employees</div>;
 
   return (
