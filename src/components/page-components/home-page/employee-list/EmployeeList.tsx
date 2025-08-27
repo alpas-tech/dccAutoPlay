@@ -70,23 +70,33 @@ const EmployeeList = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
-      {Object.entries(employeesByCategory).map(([category, emps]) => {
-        const index = currentIndex[category] ?? 0; // safe fallback
-        const employeesArr = emps as any[];
-        // Get two consecutive employees, wrap if needed
-        const first = employeesArr[index];
-        const second = employeesArr.length > 1 ? employeesArr[(index + 1) % employeesArr.length] : null;
+      {EmployeeIsLoading ? (
+        <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto animate-pulse"></div>
+      ) : (
+        <>
+          {Object.entries(employeesByCategory).map(([category, emps]) => {
+            const index = currentIndex[category] ?? 0; // safe fallback
+            const employeesArr = emps as any[];
+            // Get two consecutive employees, wrap if needed
+            const first = employeesArr[index];
+            const second = employeesArr.length > 1 ? employeesArr[(index + 1) % employeesArr.length] : null;
 
-        return (
-          <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
-            <h2 className="text-xl font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl">{category}</h2>
-            <div className="flex flex-col gap-5 w-full items-center 2xl:mt-2">
-              {first ? <EmployeeCard employee={first} /> : <p>No employees</p>}
-              {second && <EmployeeCard employee={second} />}
-            </div>
-          </div>
-        );
-      })}
+            return (
+              <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
+                <>
+                  <h2 className="lg:text-xl text-sm font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl 2xl:text-3xl">
+                    {category}
+                  </h2>
+                  <div className="flex flex-col gap-5 w-full items-center 2xl:mt-2">
+                    {first ? <EmployeeCard employee={first} /> : <p>No employees</p>}
+                    {second && <EmployeeCard employee={second} />}
+                  </div>
+                </>
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };

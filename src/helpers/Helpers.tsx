@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import NepaliDate from 'nepali-datetime';
 
 export function getCookie(name: string) {
   const cookie = Cookies.get(name);
@@ -41,3 +42,31 @@ export function convertToNepaliDigits(number: number | string) {
   const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
   return String(number).replace(/\d/g, (d) => nepaliDigits[parseInt(d)]);
 }
+
+export const nepaliDateAndTime = () => {
+  const currentDate = new Date();
+
+  const formattedTime = currentDate.toLocaleTimeString('ne-NP', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  const nepaliDate = new NepaliDate();
+  const nepaliYear = nepaliDate.getYear();
+  const nepaliMonth = nepaliDate.getMonth();
+  const nepaliDay = nepaliDate?.getDate();
+
+  const nepaliFormattedDate = `${convertToNepaliDigits(nepaliDay)} ${nepaliMonths[nepaliMonth]} ${convertToNepaliDigits(
+    nepaliYear
+  )}`;
+  const nepaliFormattedTime = convertToNepaliDigits(formattedTime);
+  const nepaliFormattedDay = nepaliWeekdays[currentDate.getDay()];
+
+  return {
+    nepaliFormattedDate,
+    nepaliFormattedTime,
+    nepaliFormattedDay,
+  };
+};

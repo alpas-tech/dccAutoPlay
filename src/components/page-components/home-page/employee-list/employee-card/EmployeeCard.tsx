@@ -6,6 +6,7 @@ const EmployeeCard = ({ employee }) => {
       {/* Left side - Image */}
       <div className="flex-shrink-0 w-24 h-24 sm:w-40 sm:h-40">
         <Image
+          key={employee.id || employee.image_url} // 🔑 force rerender
           src={employee.image_url}
           alt={employee.name}
           width={70}
@@ -17,12 +18,10 @@ const EmployeeCard = ({ employee }) => {
       {/* Right side - Details */}
       <div className="flex flex-col justify-center p-4 text-white">
         <p className="font-bold text-2xl">{employee.name}</p>
-        <p className="text-sm 2xl:text-xl">Designation: {employee.designation?.title}</p>
-        <p className="text-sm 2xl:text-xl">Phone: {employee.phone}</p>
-        {employee.email && <p className="text-sm 2xl:text-xl">Email: {employee.email}</p>}
-        {employee.room_number && <p className="text-sm 2xl:text-xl">Room: {employee.room_number}</p>}
-        {/* <p className="text-sm">Status: {employee.status === '1' ? 'Active' : 'Inactive'}</p>
-        <p className="text-xs mt-1">Updated at: {new Date(employee.updated_at).toLocaleString()}</p> */}
+        <p className="text-sm 2xl:text-xl">पद: {employee.designation?.title}</p>
+        <p className="text-sm 2xl:text-xl">फोन: {employee.phone}</p>
+        {employee.email && <p className="text-sm 2xl:text-xl">इमेल: {employee.email}</p>}
+        {employee.room_number && <p className="text-sm 2xl:text-xl">कोठा नं.: {employee.room_number}</p>}
       </div>
     </div>
   );

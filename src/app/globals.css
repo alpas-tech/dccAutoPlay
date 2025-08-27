@@ -23,8 +23,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: linear-gradient(180deg, var(--navy-900), var(--navy-800)); /* Your background color */
-  color: white; /* Optional: makes text visible */
+  background: linear-gradient(180deg, var(--navy-900), var(--navy-800));
+  color: white;
 }
 
 /* apply your custom fonts */

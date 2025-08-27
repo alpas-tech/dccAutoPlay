@@ -33,34 +33,32 @@ const ServiceList = () => {
 
   return (
     <>
-      <div className="primary-blue rounded-xl p-4 shadow-md flex flex-col">
-        {serviceIsLoading ? (
-          <>Loading...</>
-        ) : (
-          <>
-            <h2 className="text-xl font-bold mb-3">सेवाहरू</h2>
-            <div
-              ref={containerRef}
-              className="grid grid-cols-1 gap-4 lg:max-h-[68vh] 2xl:max-h-[77vh] overflow-y-auto no-scrollbar"
-            >
-              {serviceList?.data?.services?.map((item: any) => (
-                <div
-                  key={item.id}
-                  id={`service-card-${item.id}`}
-                  onClick={() => setSelectedServiceId(item.id)}
-                  className={`p-4 py-10 rounded-xl cursor-pointer shadow-md text-center transition-transform duration-200 ${
-                    selectedServiceId === item.id
-                      ? 'bg-white border border-blue-700 text-[#3B82F6] font-semibold'
-                      : 'bg-[#2563EB] text-white hover:bg-[#06375f]'
-                  }`}
-                >
-                  <h3 className="font-semibold text-2xl">{item.title}</h3>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+      {serviceIsLoading ? (
+        <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto animate-pulse"></div>
+      ) : (
+        <div className="primary-blue rounded-xl p-4 shadow-md flex flex-1 flex-col">
+          <h2 className="text-3xl font-bold mb-3">सेवाहरू</h2>
+          <div
+            ref={containerRef}
+            className="grid grid-cols-1 gap-4 lg:max-h-[68vh] 2xl:max-h-[77vh] overflow-y-auto no-scrollbar"
+          >
+            {serviceList?.data?.services?.map((item: any) => (
+              <div
+                key={item.id}
+                id={`service-card-${item.id}`}
+                onClick={() => setSelectedServiceId(item.id)}
+                className={`p-4 py-10 rounded-xl cursor-pointer shadow-md text-center transition-transform duration-200 ${
+                  selectedServiceId === item.id
+                    ? 'bg-white border border-blue-700 text-[#3B82F6] font-semibold'
+                    : 'bg-[#2563EB] text-white hover:bg-[#06375f]'
+                }`}
+              >
+                <h3 className="font-semibold text-2xl">{item.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <VideoSection
         selectedService={selectedService}

@@ -1,5 +1,5 @@
 'use client';
-import { convertToNepaliDigits, nepaliWeekdays } from '@/helpers/Helpers';
+import { nepaliDateAndTime } from '@/helpers/Helpers';
 import NepalFlag from '@/images/NepalFlag.gif';
 import { useGlobalContext } from '@/lib/useContext/useGlobalContext';
 import Image from 'next/image';
@@ -10,6 +10,8 @@ const Navbar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [hasMounted, setHasMounted] = useState(false);
 
+  const { nepaliFormattedDate, nepaliFormattedDay, nepaliFormattedTime } = nepaliDateAndTime();
+
   useEffect(() => {
     setHasMounted(true);
     const interval = setInterval(() => {
@@ -19,24 +21,6 @@ const Navbar = () => {
   }, []);
 
   if (!hasMounted) return null;
-
-  const formattedDay = currentDate.toLocaleDateString('ne-NP', {
-    weekday: 'long',
-  });
-  const formattedDate = currentDate.toLocaleDateString('ne-NP', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-  const formattedTime = currentDate.toLocaleTimeString('ne-NP', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-
-  const nepaliFormattedDate = convertToNepaliDigits(formattedDate);
-  const nepaliFormattedTime = convertToNepaliDigits(formattedTime);
-  const nepaliFormattedDay = nepaliWeekdays[currentDate.getDay()];
 
   const userData = loginData?.data?.data?.user;
   const headerImage = userData?.image;
@@ -53,7 +37,7 @@ const Navbar = () => {
               width={80}
               height={80}
               alt="Nepal government"
-              className="object-contain w-12 h-12 sm:w-[65px] sm:h-[65px]"
+              className="object-contain w-12 h-12 sm:w-[65px] sm:h-[65px] 2xl:w-28 2xl:h-28"
             />
             <div className="flex flex-col text-lg 2xl:text-3xl">
               <span className="font-semibold text-white leading-snug">{userData?.name}</span>
@@ -71,7 +55,7 @@ const Navbar = () => {
 
         {/* Flag */}
         <div className="flex">
-          <section className="flex flex-col items-end text-right text-white mr-2 mt-2 2xl:text-3xl">
+          <section className="flex flex-col items-end text-right justify-center text-white mr-2 mt-2 2xl:text-3xl">
             <p>
               {nepaliFormattedDay}, {nepaliFormattedDate}
             </p>
@@ -82,7 +66,7 @@ const Navbar = () => {
             width={65}
             height={65}
             alt="Nepal flag"
-            className="object-contain w-12 h-12 sm:w-[65px] sm:h-[65px]"
+            className="object-contain w-12 h-12 sm:w-[65px] sm:h-[65px] 2xl:w-28 2xl:h-28"
           />
         </div>
       </div>
