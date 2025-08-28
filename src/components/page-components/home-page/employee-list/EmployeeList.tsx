@@ -1,8 +1,8 @@
 'use client';
 import { useApiQuery } from '@/lib/react-query/useReactQuery';
 import { useGlobalContext } from '@/lib/useContext/useGlobalContext';
-import { useEffect, useMemo, useState } from 'react';
-import EmployeeCard from './employee-card/EmployeeCard';
+import { useMemo } from 'react';
+import CategoryGroup from './category-group/CategoryGroup';
 
 const EmployeeList = () => {
   const { loginSuccess } = useGlobalContext();
@@ -21,86 +21,20 @@ const EmployeeList = () => {
 
   // Group by category
   const employeesByCategory = useMemo(() => {
-    return employees.reduce((acc: any, emp: any) => {
-      const categoryTitle = emp.category?.title || 'अन्य';
-      if (!acc[categoryTitle]) acc[categoryTitle] = [];
-      acc[categoryTitle].push(emp);
-      return acc;
-    }, {});
+    return groupBy(employees, (emp: any) => emp.category?.title || 'अन्य');
   }, [employees]);
-
-  // Track current index per category
-  const [currentIndex, setCurrentIndex] = useState<{ [key: string]: number }>({});
-
-  useEffect(() => {
-    const keys = Object.keys(employeesByCategory);
-    setCurrentIndex((prev) => {
-      const updated = { ...prev };
-      let changed = false;
-
-      keys.forEach((cat) => {
-        if (!(cat in updated)) {
-          updated[cat] = 0;
-          changed = true;
-        }
-      });
-
-      return changed ? updated : prev;
-    });
-  }, [Object.keys(employeesByCategory).join(',')]);
-
-  // Auto-rotation
-  useEffect(() => {
-    if (!employees || employees.length === 0) return;
-
-    const intervalIds: ReturnType<typeof setInterval>[] = [];
-
-    Object.keys(employeesByCategory).forEach((category) => {
-      const empCount = employeesByCategory[category].length;
-
-      if (empCount > 1) {
-        const id = setInterval(() => {
-          setCurrentIndex((prev) => ({
-            ...prev,
-            [category]: ((prev[category] ?? 0) + 1) % empCount,
-          }));
-        }, 10000);
-        intervalIds.push(id);
-      }
-    });
-
-    return () => intervalIds.forEach((id) => clearInterval(id));
-  }, [employeesByCategory]);
 
   if (EmployeeError) return <div>Error loading employees</div>;
 
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
       {EmployeeIsLoading ? (
         <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto animate-pulse"></div>
       ) : (
         <>
-          {Object.entries(employeesByCategory).map(([category, emps]) => {
-            const index = currentIndex[category] ?? 0; // safe fallback
-            const employeesArr = emps as any[];
-            // Get two consecutive employees, wrap if needed
-            const first = employeesArr[index];
-            const second = employeesArr.length > 1 ? employeesArr[(index + 1) % employeesArr.length] : null;
-
-            return (
-              <div key={category} className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
-                <>
-                  <h2 className="lg:text-xl text-sm font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl 2xl:text-3xl">
-                    {category}
-                  </h2>
-                  <div className="flex flex-col gap-5 w-full items-center 2xl:mt-2">
-                    {first ? <EmployeeCard employee={first} /> : <p>No employees</p>}
-                    {second && <EmployeeCard employee={second} />}
-                  </div>
-                </>
-              </div>
-            );
-          })}
+          {Object.entries(employeesByCategory).map(([category, emps]) => (
+            <CategoryGroup key={category} category={category} employees={emps} />
+          ))}
         </>
       )}
     </div>
@@ -108,3 +42,13 @@ const EmployeeList = () => {
 };
 
 export default EmployeeList;
+
+// GroupBy function
+function groupBy<T>(array: T[], keyFn: (item: T) => string) {
+  return array.reduce((acc: Record<string, T[]>, item) => {
+    const key = keyFn(item);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+}
