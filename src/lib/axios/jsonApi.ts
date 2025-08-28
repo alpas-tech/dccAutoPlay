@@ -36,9 +36,9 @@ jsonApi.interceptors.response.use(
       const { access_token, expires_at, user } = response.data.data;
 
       if (access_token) {
-        setCookie('aAcc', access_token);
-        setCookie('user', JSON.stringify(user));
-        setCookie('aExp', expires_at);
+        setCookie('aAcc', access_token, { expires: 1 / 24 });
+        setCookie('user', JSON.stringify(user), { expires: 1 / 24 });
+        setCookie('aExp', expires_at, { expires: 1 / 24 });
       }
     }
 

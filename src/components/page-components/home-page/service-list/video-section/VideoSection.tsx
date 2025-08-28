@@ -49,7 +49,7 @@ const VideoSection = ({
       {selectedService?.video_url ? (
         <video
           ref={videoRef}
-          className="w-full max-w-5xl h-64 sm:h-80 md:h-full rounded-lg"
+          className="w-full h-64 sm:h-80 md:h-full rounded-lg"
           src={selectedService.video_url}
           autoPlay
           muted

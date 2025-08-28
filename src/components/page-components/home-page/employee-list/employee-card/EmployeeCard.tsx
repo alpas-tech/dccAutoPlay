@@ -18,8 +18,8 @@ const EmployeeCard = ({ employee }: { employee: any }) => {
       {/* Right side - Details */}
       <div className="flex flex-col justify-center p-4 text-white">
         <p className="font-bold text-2xl">{employee.name}</p>
-        <p className="text-sm 2xl:text-xl">पद: {employee.designation?.title}</p>
-        <p className="text-sm 2xl:text-xl">फोन: {employee.phone}</p>
+        {employee.designation?.title && <p className="text-sm 2xl:text-xl">पद: {employee.designation?.title}</p>}
+        {employee.phone && <p className="text-sm 2xl:text-xl">फोन: {employee.phone}</p>}
         {employee.email && <p className="text-sm 2xl:text-xl">इमेल: {employee.email}</p>}
         {employee.room_number && <p className="text-sm 2xl:text-xl">कोठा नं.: {employee.room_number}</p>}
       </div>
