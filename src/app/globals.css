@@ -77,11 +77,14 @@ body {
     visibility: visible !important;
   }
   .print-area {
-    position: absolute !important;
+    position: fixed !important;
     left: 0;
     top: 0;
     width: 100vw;
+    height: 100vh;
     background: white;
     z-index: 9999;
+    overflow: visible !important;
+    box-sizing: border-box;
   }
 }
