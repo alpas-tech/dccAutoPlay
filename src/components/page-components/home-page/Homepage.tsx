@@ -1,5 +1,6 @@
 // components/MiddleSection.tsx
 'use client';
+import DocumentBtn from './document/DocumentBtn';
 import EmployeeList from './employee-list/EmployeeList';
 import ServiceList from './service-list/ServiceList';
 
@@ -12,7 +13,7 @@ const Homepage = () => {
           <EmployeeList />
         </div>
       </div>
-      {/* <NoticeText /> */}
+      <DocumentBtn />
     </>
   );
 };

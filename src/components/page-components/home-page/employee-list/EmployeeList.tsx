@@ -32,7 +32,6 @@ const EmployeeList = () => {
   // Track current index per category
   const [currentIndex, setCurrentIndex] = useState<{ [key: string]: number }>({});
 
-  // 🔹 Only reset if category keys change
   useEffect(() => {
     const keys = Object.keys(employeesByCategory);
     setCurrentIndex((prev) => {
@@ -50,7 +49,7 @@ const EmployeeList = () => {
     });
   }, [Object.keys(employeesByCategory).join(',')]);
 
-  // 🔹 Auto-rotation
+  // Auto-rotation
   useEffect(() => {
     if (!employees || employees.length === 0) return;
 
@@ -73,12 +72,10 @@ const EmployeeList = () => {
     return () => intervalIds.forEach((id) => clearInterval(id));
   }, [employeesByCategory]);
 
-  // ✅ branch after hooks
-
   if (EmployeeError) return <div>Error loading employees</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
+    <div className=" grid grid-cols-1 md:grid-cols-1 gap-2 no-scrollbar">
       {EmployeeIsLoading ? (
         <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto animate-pulse"></div>
       ) : (
