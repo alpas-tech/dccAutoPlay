@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const EmployeeCard = ({ employee }) => {
+const EmployeeCard = ({ employee }: { employee: any }) => {
   return (
     <div className="flex w-11/12 bg-primary-blue rounded-md shadow-md overflow-hidden">
       {/* Left side - Image */}

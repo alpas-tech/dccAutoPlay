@@ -28,7 +28,7 @@ const DocumentBtn = () => {
           {/* Print Button */}
           <button
             type="button"
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer"
+            className="mt-4 px-4 py-2 bg-[#2563eb] text-white rounded-md hover:bg-[#1d4ed8] cursor-pointer"
             onClick={handlePrint}
           >
             Print
@@ -39,7 +39,7 @@ const DocumentBtn = () => {
       <div className="flex justify-end mx-6">
         <button
           onClick={() => setShowPopupModel(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-lg hover:bg-blue-700 transition my-2 cursor-pointer"
+          className="bg-[#2563eb] text-white px-4 py-2 rounded-md shadow-lg hover:bg-[#1d4ed8] transition my-2 cursor-pointer"
         >
           Print view
         </button>

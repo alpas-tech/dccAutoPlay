@@ -19,6 +19,16 @@
 }
 
 /* apply your custom fonts */
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, var(--navy-900), var(--navy-800));
+  color: white;
+}
+
 body {
   font-family: var(--font-english), sans-serif;
 }

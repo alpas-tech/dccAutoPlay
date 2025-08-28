@@ -10,7 +10,7 @@ const MasterLayout = ({ children }: { children: ReactNode }) => {
     <>
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-1 nepali pt-22 2xl:pt-32 bg-gradient-to-b from-[#0b2b48] to-[#123a5f]">{children}</main>
+        <main className="flex-1 nepali pt-22 2xl:pt-32">{children}</main>
         <Footer />
       </div>
     </>
