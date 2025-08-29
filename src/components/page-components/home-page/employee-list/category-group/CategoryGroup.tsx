@@ -8,9 +8,9 @@ interface CategoryGroupProps {
 }
 
 const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) => {
-  const head = employees.find(
-    (emp) => emp.designation?.title === 'वडा सचिव' || emp.designation?.title === 'वडा अध्यक्ष'
-  );
+  const headDesignations = ['वडा सचिव', 'वडा अध्यक्ष', 'अर्को प्रमुख']; // add more
+
+  const head = employees.find((emp) => headDesignations.includes(emp.designation?.title));
   const rest = employees.filter((emp) => emp !== head);
 
   const [currentIndex, setCurrentIndex] = useState(0);

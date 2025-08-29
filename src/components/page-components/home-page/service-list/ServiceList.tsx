@@ -34,14 +34,12 @@ const ServiceList = () => {
   return (
     <>
       {serviceIsLoading ? (
-        <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto animate-pulse"></div>
+        <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-full min-h-0 animate-pulse" />
       ) : (
-        <div className="primary-blue rounded-xl p-4 shadow-md flex flex-1 flex-col">
-          <h2 className="text-3xl font-bold mb-3">सेवाहरू</h2>
-          <div
-            ref={containerRef}
-            className="grid grid-cols-1 gap-4 lg:max-h-[68vh] 2xl:max-h-[77vh] overflow-y-auto no-scrollbar"
-          >
+        <div className="primary-blue rounded-xl p-4 shadow-md flex flex-col h-full min-h-0">
+          <h2 className="text-3xl font-bold mb-3 shrink-0">सेवाहरू</h2>
+
+          <div ref={containerRef} className="flex-1 overflow-y-auto no-scrollbar grid grid-cols-1 gap-4">
             {serviceList?.data?.services?.map((item: any) => (
               <div
                 key={item.id}
@@ -53,13 +51,12 @@ const ServiceList = () => {
                     : 'bg-[#2563EB] text-white hover:bg-[#06375f]'
                 }`}
               >
-                <h3 className="font-semibold text-2xl">{item.title}</h3>
+                <h3 className="font-semibold 2xl:text-2xl 3xl:text-3xl 4xl:text-4xl">{item.title}</h3>
               </div>
             ))}
           </div>
         </div>
       )}
-
       <VideoSection
         selectedService={selectedService}
         serviceList={serviceList}
