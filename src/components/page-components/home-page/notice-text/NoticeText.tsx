@@ -20,7 +20,7 @@ const NoticeText = () => {
     <section className="h-12 flex items-center overflow-hidden primary-blue">
       {/* Red arrow label */}
       <div className="flex items-center relative z-40">
-        <div className="bg-[#D62828] text-white font-bold px-4 h-12 flex items-center">
+        <div className="bg-[#D62828] text-white font-bold px-4 h-12 flex items-center text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)]">
           <span>सुचना</span>
         </div>
         {/* Arrow */}
@@ -33,7 +33,7 @@ const NoticeText = () => {
       ) : (
         <div className="whitespace-nowrap animate-marquee">
           {notices.map((notice: any) => (
-            <span key={notice.id} className="inline-block mx-8 text-lg 2xl:text-2xl text-white">
+            <span key={notice.id} className="inline-block mx-8 text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)] text-white">
               {notice.title}
             </span>
           ))}
