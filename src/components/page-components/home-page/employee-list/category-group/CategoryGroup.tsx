@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import EmployeeCard from '../employee-card/EmployeeCard';
 
 interface CategoryGroupProps {
@@ -14,6 +14,7 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) =>
   const rest = employees.filter((emp) => emp !== head);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Auto-rotation for this group only
   useEffect(() => {
@@ -29,14 +30,14 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) =>
   const rotating = rest.length > 0 ? rest[currentIndex] : null;
 
   return (
-    <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto">
+    <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto overflow-auto no-scrollbar">
       <h2 className="lg:text-xl text-sm font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl 2xl:text-3xl">
         {category}
       </h2>
       <div className="flex flex-col gap-5 w-full items-center 2xl:mt-2 relative">
         {head ? <EmployeeCard employee={head} /> : <p>No head</p>}
 
-        <div className="relative w-full flex justify-center">
+        <div ref={containerRef} className="relative w-full flex justify-center">
           {rest.map((emp) => {
             const isVisible = emp === rotating;
             return (
