@@ -3,14 +3,14 @@ import Image from 'next/image';
 const EmployeeCard = ({ employee }: { employee: any }) => {
   return (
     <div className="flex w-11/12 max-w-4xl bg-primary-blue rounded-xl shadow-md overflow-hidden">
-      <div className="flex-shrink-0 w-24 h-24 sm:w-40 sm:h-40">
+      <div className="flex-shrink-0 w-24 h-24 sm:w-40 sm:h-40 rounded-xl">
         <Image
           key={employee.id || employee.image_url}
           src={employee.image_url}
           alt={employee.name}
           width={160}
           height={160}
-          className="object-cover w-full h-full"
+          className="object-cover w-full h-full rounded-xl"
           priority
         />
       </div>
