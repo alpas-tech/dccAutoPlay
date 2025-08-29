@@ -51,7 +51,7 @@ const ServiceList = () => {
                     : 'bg-[#2563EB] text-white hover:bg-[#06375f]'
                 }`}
               >
-                <h3 className="font-semibold text-[clamp(1rem,1vw+1rem,3rem)]">{item.title}</h3>
+                <h3 className="font-semibold 2xl:text-2xl 3xl:text-3xl 4xl:text-4xl">{item.title}</h3>
               </div>
             ))}
           </div>

@@ -16,7 +16,7 @@ const EmployeeCard = ({ employee }: { employee: any }) => {
       </div>
 
       <div className="flex flex-col justify-center p-4 text-white flex-1 text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)]">
-        <p className="font-bold text-[clamp(1.25rem,1vw+1rem,2.5rem)] leading-snug">{employee.name}</p>
+        <p className="font-bold text-3xl leading-snug">{employee.name}</p>
 
         {employee.designation?.title && <p>पद: {employee.designation?.title}</p>}
         {employee.phone && <p>फोन: {employee.phone}</p>}

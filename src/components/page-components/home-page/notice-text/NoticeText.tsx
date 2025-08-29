@@ -17,10 +17,10 @@ const NoticeText = () => {
   const notices = noticeList?.data?.notices || [];
 
   return (
-    <section className="h-12 flex items-center overflow-hidden primary-blue">
+    <section className="h-12 2xl:h-14 flex items-center overflow-hidden primary-blue">
       {/* Red arrow label */}
       <div className="flex items-center relative z-40">
-        <div className="bg-[#D62828] text-white font-bold px-4 h-12 flex items-center text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)]">
+        <div className="bg-[#D62828] text-white font-bold px-4 h-12 2xl:h-14  flex items-center text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)]">
           <span>सुचना</span>
         </div>
         {/* Arrow */}
@@ -33,7 +33,7 @@ const NoticeText = () => {
       ) : (
         <div className="whitespace-nowrap animate-marquee">
           {notices.map((notice: any) => (
-            <span key={notice.id} className="inline-block mx-8 text-[clamp(0.75rem,0.6vw+0.6rem,1.25rem)] text-white">
+            <span key={notice.id} className="inline-block mx-8 sm:text-2xl xl:text-2xl 2xl:text-3xl text-white">
               {notice.title}
             </span>
           ))}
