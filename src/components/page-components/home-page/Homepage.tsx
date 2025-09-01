@@ -1,6 +1,7 @@
 'use client';
-import EmployeeList from './employee-list/EmployeeList';
-import ServiceList from './service-list/ServiceList';
+
+import EmployeeList from '@/components/page-components/home-page/employee-list/EmployeeList';
+import ServiceList from '@/components/page-components/home-page/service-list/ServiceList';
 
 const Homepage = () => {
   return (
@@ -9,19 +10,12 @@ const Homepage = () => {
         <div className="flex-1 grid lg:grid-cols-4 grid-cols-1 gap-4 overflow-auto min-h-0">
           <ServiceList />
           <EmployeeList />
-          {/* <DocumentBtn /> */}
         </div>
       </div>
+      {/* <NepaliTTS /> */}
+      {/* <DocumentBtn /> */}
     </>
   );
 };
 
 export default Homepage;
-
-// old design using only vertical height
-//  <div className="flex flex-col h-[81vh] 2xl:h-[86vh] p-4 text-white">
-//    <div className="flex-1 grid lg:grid-cols-4 grid-cols-1 gap-4 overflow-auto min-h-0">
-//      <ServiceList />
-//      <EmployeeList />
-//    </div>
-//  </div>;

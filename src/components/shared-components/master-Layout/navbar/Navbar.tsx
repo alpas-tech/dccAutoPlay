@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 z-50 w-full background-blue-header shadow-md">
       {/* Main header */}
-      <div className="h-20 2xl:h-32 px-6 flex items-center justify-between relative">
+      <div className={`h-20 2xl:h-32 px-6 flex items-center ${headerImage ? 'justify-between' : 'justify-end'}`}>
         {/* Logo */}
         {headerImage && (
           <section className="flex gap-2 items-center">

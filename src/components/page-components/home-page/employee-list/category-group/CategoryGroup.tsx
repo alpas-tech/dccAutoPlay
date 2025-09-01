@@ -8,7 +8,7 @@ interface CategoryGroupProps {
 }
 
 const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) => {
-  const headDesignations = ['वडा सचिव', 'वडा अध्यक्ष', 'अर्को प्रमुख']; // add more
+  const headDesignations = ['वडा सचिव', 'वडा अध्यक्ष', 'अध्यक्ष', 'अर्को प्रमुख']; // add more
 
   const head = employees.find((emp) => headDesignations.includes(emp.designation?.title));
   const rest = employees.filter((emp) => emp !== head);
@@ -31,7 +31,7 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) =>
 
   return (
     <div className="primary-blue rounded-xl shadow-md flex flex-col items-center h-auto overflow-auto no-scrollbar">
-      <h2 className="lg:text-xl text-sm font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl 2xl:text-3xl">
+      <h2 className="lg:text-xl text-sm font-bold mb-2 bg-[#15803d] w-full py-2 text-center rounded-t-xl 2xl:text-3xl sticky top-0 text-white z-10">
         {category}
       </h2>
       <div className="flex flex-col gap-5 w-full items-center 2xl:mt-2 relative">
