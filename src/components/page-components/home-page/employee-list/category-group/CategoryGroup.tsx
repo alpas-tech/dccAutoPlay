@@ -44,7 +44,7 @@ const CategoryGroup: React.FC<CategoryGroupProps> = ({ category, employees }) =>
               <div
                 key={emp.id}
                 className={`absolute top-0 left-0 w-full flex justify-center transition-opacity duration-700 ease-in-out ${
-                  isVisible ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  isVisible ? 'opacity-100 z-0' : 'opacity-0 z-0'
                 }`}
               >
                 <EmployeeCard employee={emp} />
