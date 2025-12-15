@@ -1,121 +1,133 @@
 'use client';
 
-import { PopUpModel } from '@/components/shared-components/popup-modal/PopupModal';
-import { useRef, useState } from 'react';
-import { useReactToPrint } from 'react-to-print';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
-const DocumentBtn = () => {
-  const [showPopupModel, setShowPopupModel] = useState(false);
-  const printRef = useRef<HTMLDivElement>(null);
+const Carousel = ({ extras }: { extras: any[] }) => {
+  const [current, setCurrent] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const length = extras.length;
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handlePrint = useReactToPrint({
-    contentRef: printRef, // 👈 NEW API works better in v3
-    documentTitle: 'Sample Document',
-    onAfterPrint: () => console.log('✅ Printing finished!'),
-  });
+  // Auto slide
+  useEffect(() => {
+    startAutoSlide();
+    return () => stopAutoSlide();
+  }, []);
+
+  const startAutoSlide = () => {
+    stopAutoSlide();
+    intervalRef.current = setInterval(() => {
+      nextSlide();
+    }, 4000);
+  };
+
+  const stopAutoSlide = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  };
+
+  const nextSlide = () => {
+    setCurrent((prev) => prev + 1);
+  };
+
+  // Handle transition end for infinite loop
+  const handleTransitionEnd = () => {
+    if (current === length) {
+      // reached clone → reset instantly to real first
+      setIsTransitioning(false);
+      setCurrent(0);
+
+      // ensure next slides animate again
+      requestAnimationFrame(() => {
+        setIsTransitioning(true);
+      });
+    }
+  };
+
+  // Swipe support
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    stopAutoSlide();
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX !== null && touchEndX !== null) {
+      const distance = touchStartX - touchEndX;
+      if (distance > 50) {
+        nextSlide(); // only left swipe
+      }
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+    startAutoSlide();
+  };
+
+  if (!extras?.length) return null;
 
   return (
-    <div>
-      {showPopupModel && (
-        <PopUpModel onClick={() => setShowPopupModel(false)}>
-          <div
-            ref={printRef}
-            className="print-area bg-white text-black/70 p-6 rounded-md shadow-md print:p-8 print:m-0"
-          >
-            <PrintContent />
+    <div
+      className="relative w-full max-w-3xl mx-auto overflow-hidden rounded-lg"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className={`flex ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
+        style={{ transform: `translateX(-${current * 100}%)` }}
+        onTransitionEnd={handleTransitionEnd}
+      >
+        {extras.map((img, idx) => (
+          <div key={idx} className="w-full flex-shrink-0 flex items-center justify-center">
+            <Image
+              src={img.file_url}
+              alt={`extra-${idx}`}
+              width={1200}
+              height={1200}
+              className="max-h-[70vh] w-auto object-contain"
+            />
           </div>
+        ))}
+        {/* clone first image at the end */}
+        <div className="w-full flex-shrink-0 flex items-center justify-center">
+          <Image
+            src={extras[0].file_url}
+            alt="extra-clone"
+            width={1200}
+            height={1200}
+            className="max-h-[70vh] w-auto object-contain"
+          />
+        </div>
+      </div>
 
-          {/* Print Button */}
+      {/* Only next button */}
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full hover:bg-black/60"
+      >
+        ▶
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-3 w-full flex justify-center gap-2">
+        {extras.map((_, idx) => (
           <button
-            type="button"
-            className="mt-4 px-4 py-2 bg-[#2563eb] text-white rounded-md hover:bg-[#1d4ed8] cursor-pointer"
-            onClick={handlePrint}
-          >
-            Print
-          </button>
-        </PopUpModel>
-      )}
-
-      <div className="flex justify-end mx-6">
-        <button
-          onClick={() => setShowPopupModel(true)}
-          className="bg-[#2563eb] text-white px-4 py-2 rounded-md shadow-lg hover:bg-[#1d4ed8] transition my-2 cursor-pointer"
-        >
-          Print view
-        </button>
+            key={idx}
+            onClick={() => setCurrent(idx)}
+            className={`w-3 h-3 rounded-full transition ${
+              idx === current % length ? 'bg-white scale-110' : 'bg-gray-400'
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
 };
 
-export default DocumentBtn;
-
-const PrintContent = () => {
-  return (
-    <div className="flex flex-col justify-between print:h-[90vh]">
-      <section>
-        {/* Header */}
-        <div className="text-center border-b pb-4 mb-4">
-          <h1 className="text-2xl font-bold text-black">Company Name</h1>
-          <p className="text-sm text-gray-500">123 Business Street, Kathmandu, Nepal</p>
-          <p className="text-sm text-gray-500">Phone: +977 1 444444 | Email: info@company.com</p>
-        </div>
-
-        {/* Title */}
-        <h2 className="text-xl font-semibold mb-2">Sample Document / Invoice</h2>
-        <p className="mb-4">
-          This is a sample document preview. You can add your formatted content here, such as invoices, reports, or
-          letters.
-        </p>
-
-        {/* Table */}
-        <table className="w-full border-collapse border border-gray-300 mb-6 text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border border-gray-300 px-3 py-2 text-left">Item</th>
-              <th className="border border-gray-300 px-3 py-2 text-right">Quantity</th>
-              <th className="border border-gray-300 px-3 py-2 text-right">Price</th>
-              <th className="border border-gray-300 px-3 py-2 text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 px-3 py-2">Product A</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">2</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">Rs. 500</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">Rs. 1000</td>
-            </tr>
-            <tr>
-              <td className="border border-gray-300 px-3 py-2">Product B</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">1</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">Rs. 750</td>
-              <td className="border border-gray-300 px-3 py-2 text-right">Rs. 750</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr className="font-bold">
-              <td colSpan={3} className="border border-gray-300 px-3 py-2 text-right">
-                Total
-              </td>
-              <td className="border border-gray-300 px-3 py-2 text-right">Rs. 1750</td>
-            </tr>
-          </tfoot>
-        </table>
-
-        {/* Notes */}
-        <div className="mb-6">
-          <h3 className="font-semibold">Notes</h3>
-          <p className="text-sm text-gray-600">
-            Thank you for your business. Payment is due within 7 days. Please contact us if you have any questions.
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <div className="text-center text-xs text-gray-500 border-t pt-4">
-        <p>Generated on {new Date().toLocaleDateString()}</p>
-        <p>© {new Date().getFullYear()} Company Name. All rights reserved.</p>
-      </div>
-    </div>
-  );
-};
+export default Carousel;
